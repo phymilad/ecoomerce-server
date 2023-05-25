@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend e-commerce website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phymilad/ecoomerce-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phymilad/ecoomerce-server/issues"
+  },
+  "homepage": "https://github.com/phymilad/ecoomerce-server#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.1",
+    "nodemon": "^2.0.22"
+  }
+}
