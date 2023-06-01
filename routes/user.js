@@ -7,9 +7,12 @@ const {
 } = require("./verifyToken")
 
 // Get all users
-router.get("/", async (req, res) => {
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  const query = req.query.new
   try {
-    const users = await User.find()
+    const users = !!query
+      ? await User.find().sort({ _id: -1 }).limit(2)
+      : await User.find()
     res.status(200).json(users)
   } catch (err) {
     res.status(500).json("There is a problem in server")
@@ -20,8 +23,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
+    console.log("user", user)
     const { password, ...others } = user
-    res.status(200).json(...others)
+    console.log("password", password)
+    console.log("others", others)
+    res.status(200).json(others._doc)
   } catch (err) {
     res.status(500).json("cannot find this user")
   }
@@ -52,10 +58,10 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // Delete a user
-router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id)
-    res.status(201).json("User has been deleted successfully")
+    const user = await User.findByIdAndDelete(req.params.id)
+    res.status(201).json(user)
   } catch (err) {
     res.status(500).json(err)
   }
